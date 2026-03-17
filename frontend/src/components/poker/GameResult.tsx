@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { GameState } from "@/lib/engine/types";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 interface GameResultProps {
   state: GameState;
@@ -9,6 +10,7 @@ interface GameResultProps {
 }
 
 export default function GameResult({ state, onPlayAgain }: GameResultProps) {
+  const { play } = useSoundEffects();
   const playerWon = state.winner === 0;
   const isTie = state.winner === -1;
   const botWon = state.winner === 1;
@@ -81,7 +83,7 @@ export default function GameResult({ state, onPlayAgain }: GameResultProps) {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={onPlayAgain}
+          onClick={() => { play("deal"); onPlayAgain(); }}
           className="mt-6 brand-btn-primary px-8 py-3 font-retro-display text-[10px] uppercase tracking-wider"
         >
           DEAL NEXT HAND

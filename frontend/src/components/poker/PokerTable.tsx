@@ -5,6 +5,7 @@ import Card from "./Card";
 import CommunityCards from "./CommunityCards";
 import BettingControls from "./BettingControls";
 import GameResult from "./GameResult";
+import PixelIcon from "@/components/ui/PixelIcon";
 import type { GameState } from "@/lib/engine/types";
 import { Action, Phase } from "@/lib/engine/types";
 
@@ -60,7 +61,7 @@ export default function PokerTable({ state, onAction, onPlayAgain }: PokerTableP
 
             {/* Bot info */}
             <div className={`flex items-center gap-2 bg-black/60 border border-white/10 px-3 py-1.5 pixel-border-sm ${bot.hasFolded ? "opacity-40" : ""}`}>
-              <span className="text-base">{"\uD83E\uDD16"}</span>
+              <PixelIcon name="robot" size={16} />
               <div>
                 <div className="font-retro-display text-[7px] text-white/50 uppercase">{bot.name}</div>
                 <div className="font-retro-display text-[9px] text-white">{bot.chips.toLocaleString()} <span className="text-[7px] text-white/30">CHIPS</span></div>

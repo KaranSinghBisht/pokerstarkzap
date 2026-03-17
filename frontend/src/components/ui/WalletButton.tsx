@@ -2,9 +2,11 @@
 
 import { motion } from "framer-motion";
 import { useStarknet } from "@/providers/StarknetProvider";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 export default function WalletButton() {
   const { address, username, isConnected, connecting, error, connectController, disconnect } = useStarknet();
+  const { play } = useSoundEffects();
 
   if (isConnected) {
     const display = username || `${address!.slice(0, 6)}...${address!.slice(-4)}`;
@@ -16,7 +18,7 @@ export default function WalletButton() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => disconnect()}
+          onClick={() => { play("click"); disconnect(); }}
           className="px-3 py-1.5 border border-white/20 bg-black/40 font-retro-display text-[8px] text-white/60 hover:text-white hover:border-white/40 transition-colors uppercase"
         >
           Disconnect
@@ -30,7 +32,7 @@ export default function WalletButton() {
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={connectController}
+        onClick={() => { play("click"); connectController(); }}
         disabled={connecting}
         className="brand-btn-cyan px-4 py-2 font-retro-display text-[9px] uppercase disabled:opacity-50"
       >

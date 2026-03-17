@@ -4,8 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import WalletButton from "@/components/ui/WalletButton";
+import PixelIcon from "@/components/ui/PixelIcon";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 export default function LandingPage() {
+  const { play } = useSoundEffects();
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top Bar */}
@@ -63,6 +67,7 @@ export default function LandingPage() {
             <motion.button
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => play("click")}
               className="brand-btn-primary px-12 py-4 font-retro-display text-sm uppercase tracking-wider"
             >
               PLAY NOW
@@ -72,17 +77,17 @@ export default function LandingPage() {
           {/* Feature Highlights */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
             <div className="brand-panel p-5 text-center">
-              <div className="text-3xl mb-3">&#x26A1;</div>
+              <div className="flex justify-center mb-3"><PixelIcon name="lightning" size={32} /></div>
               <div className="font-retro-display text-[9px] text-[var(--secondary)] mb-2">GASLESS</div>
               <div className="font-retro-body text-base text-white/50">No gas fees via AVNU Paymaster</div>
             </div>
             <div className="brand-panel p-5 text-center">
-              <div className="text-3xl mb-3">&#x1F3AE;</div>
+              <div className="flex justify-center mb-3"><PixelIcon name="gamepad" size={32} /></div>
               <div className="font-retro-display text-[9px] text-[var(--accent)] mb-2">INSTANT CONNECT</div>
               <div className="font-retro-body text-base text-white/50">One-click via Cartridge Controller</div>
             </div>
             <div className="brand-panel p-5 text-center">
-              <div className="text-3xl mb-3">&#x1F0CF;</div>
+              <div className="flex justify-center mb-3"><PixelIcon name="card" size={32} /></div>
               <div className="font-retro-display text-[9px] text-[var(--primary)] mb-2">HEADS-UP POKER</div>
               <div className="font-retro-body text-base text-white/50">Play vs bot with retro pixel UI</div>
             </div>

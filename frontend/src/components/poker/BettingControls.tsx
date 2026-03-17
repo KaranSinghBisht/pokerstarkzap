@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Action } from "@/lib/engine/types";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 interface BettingControlsProps {
   currentBet: number;
@@ -35,6 +36,7 @@ export default function BettingControls({
   currentBet, playerBet, playerChips, bigBlind, isPlayerTurn, onAction,
 }: BettingControlsProps) {
   const [betAmount, setBetAmount] = useState<string>("");
+  const { play } = useSoundEffects();
 
   const callAmount = currentBet - playerBet;
   const canCheck = callAmount === 0;
@@ -45,6 +47,7 @@ export default function BettingControls({
   const commitBet = () => {
     const amt = Number(betAmount.replace(/[^0-9]/g, "") || "0");
     if (amt >= minRaise) {
+      play("raise");
       onAction(currentBet > 0 ? Action.Raise : Action.Bet, amt);
       setBetAmount("");
     }
@@ -67,13 +70,13 @@ export default function BettingControls({
       <div className="relative z-10 flex items-center gap-3 justify-center flex-wrap">
         {/* Action buttons */}
         <div className="flex gap-2">
-          <ActionBtn label="FOLD" color="bg-[#ff003c] border-[#80001e] shadow-[0_0_12px_rgba(255,0,60,0.2)]" onClick={() => onAction(Action.Fold, 0)} />
+          <ActionBtn label="FOLD" color="bg-[#ff003c] border-[#80001e] shadow-[0_0_12px_rgba(255,0,60,0.2)]" onClick={() => { play("fold"); onAction(Action.Fold, 0); }} />
           {canCheck ? (
-            <ActionBtn label="CHECK" color="bg-[#00f3ff] border-[#007a80] shadow-[0_0_12px_rgba(0,243,255,0.2)]" onClick={() => onAction(Action.Check, 0)} />
+            <ActionBtn label="CHECK" color="bg-[#00f3ff] border-[#007a80] shadow-[0_0_12px_rgba(0,243,255,0.2)]" onClick={() => { play("check"); onAction(Action.Check, 0); }} />
           ) : (
-            <ActionBtn label="CALL" sub={callAmount.toString()} color="bg-[#00f3ff] border-[#007a80] shadow-[0_0_12px_rgba(0,243,255,0.2)]" disabled={!canCall} onClick={() => onAction(Action.Call, callAmount)} />
+            <ActionBtn label="CALL" sub={callAmount.toString()} color="bg-[#00f3ff] border-[#007a80] shadow-[0_0_12px_rgba(0,243,255,0.2)]" disabled={!canCall} onClick={() => { play("call"); onAction(Action.Call, callAmount); }} />
           )}
-          <ActionBtn label="ALL IN" color="bg-[#00ff66] border-[#008033] shadow-[0_0_12px_rgba(0,255,102,0.2)]" onClick={() => onAction(Action.AllIn, playerChips)} />
+          <ActionBtn label="ALL IN" color="bg-[#00ff66] border-[#008033] shadow-[0_0_12px_rgba(0,255,102,0.2)]" onClick={() => { play("allIn"); onAction(Action.AllIn, playerChips); }} />
         </div>
 
         {/* Raise slider — compact inline */}
